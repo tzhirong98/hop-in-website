@@ -11,7 +11,11 @@ import womanImg from "./img/woman.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons"; */
 
+// Img
+import banner from "./img/ridesharing.jpg"; // Your image path
+
 // Components
+import Home from "./components/Home";
 import About from "./components/About";
 
 // Firebase setup
@@ -55,21 +59,19 @@ const App = () => {
       </Navbar>
 
       <section id="home" style={{ height: "100vh", paddingTop: "80px" }}>
-        <Container>
-          <h1 style={{}}>Hop in</h1>
-          <p>
-            Your ride-sharing experience starts here. Scroll down to learn more.
-          </p>
+        <Container >
+          <Home />
         </Container>
       </section>
 
-      {/* About Us Section */}
+      {/* About Section */}
       <section
         id="aboutus"
         style={{ height: "100vh", padding: "7vh", backgroundColor: "#74785C" }}
       >
-        <About />
-
+        <Container>
+          <About />
+        </Container>
       </section>
 
       {/* Features Section */}

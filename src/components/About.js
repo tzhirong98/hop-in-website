@@ -1,18 +1,16 @@
 // Import necessary modules
 import React from "react";
-import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
-import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
+import { Container } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fas } from "@fortawesome/free-solid-svg-icons";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 const About = () => {
   return (
     <div>
-      <Container>
+      <Container style={{ padding: "150px"}}>
         <h2
           style={{ textAlign: "center", fontWeight: "bold", fontSize: "40px" }}
         >
@@ -36,7 +34,8 @@ const About = () => {
 
       <Container>
         <CardGroup>
-          <Card>
+          {/* Card 1 */}
+          <Card bg="dark" border="warning" text="white">
             <Card.Body>
               <Card.Text>
                 "This app has made my daily commute so much easier! The pickup
@@ -46,10 +45,17 @@ const About = () => {
               <Card.Title>– Sarah T.</Card.Title>
             </Card.Body>
             <Card.Footer>
-              <small className="text-muted">Rating:</small>
+              <small className="text-muted">
+              <FontAwesomeIcon icon={faStar} color="white"/>
+              <FontAwesomeIcon icon={faStar} color="white"/>
+              <FontAwesomeIcon icon={faStar} color="white"/>
+              <FontAwesomeIcon icon={faStar} color="white"/>
+              </small>
             </Card.Footer>
           </Card>
-          <Card>
+
+          {/* Card 2 */}
+          <Card bg="dark" border="warning" text="light">
             <Card.Body>
               <Card.Text>
                 "As a driver, I appreciate being able to choose my routes. It
@@ -59,20 +65,33 @@ const About = () => {
               <Card.Title>- John L.</Card.Title>
             </Card.Body>
             <Card.Footer>
-              <small className="text-muted">Rating: </small>
+              <small className="text-muted">
+                <FontAwesomeIcon icon={faStar} color="white" />
+                <FontAwesomeIcon icon={faStar} color="white"/>
+                <FontAwesomeIcon icon={faStar} color="white"/>
+                <FontAwesomeIcon icon={faStar} color="white"/>
+                <FontAwesomeIcon icon={faStar} color="white"/>
+              </small>
             </Card.Footer>
           </Card>
-          <Card>
+
+          {/* Card 3 */}
+          <Card bg="dark" border="warning" text="white">
             <Card.Body>
               <Card.Text>
                 "Finally, a ridesharing app that works for everyone! It’s
                 efficient, easy to use, and the shared rides feel so organized."
               </Card.Text>
-
               <Card.Title>- Alisa T.</Card.Title>
             </Card.Body>
             <Card.Footer>
-              <small className="text-muted">Last updated 3 mins ago</small>
+              <small className="text-muted">
+              <FontAwesomeIcon icon={faStar} color="white"/>
+              <FontAwesomeIcon icon={faStar} color="white"/>
+              <FontAwesomeIcon icon={faStar} color="white"/>
+              <FontAwesomeIcon icon={faStar} color="white"/>
+
+              </small>
             </Card.Footer>
           </Card>
         </CardGroup>
