@@ -3,16 +3,16 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import { Navbar, Nav, Container } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-/* import Card from "react-bootstrap/Card";
-import CardGroup from "react-bootstrap/CardGroup";
-import manImg from "./img/man.png";
-import womanImg from "./img/woman.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fas } from "@fortawesome/free-solid-svg-icons"; */
+// import Button from "react-bootstrap/Button";
+// import Card from "react-bootstrap/Card";
+// import CardGroup from "react-bootstrap/CardGroup";
+// import manImg from "./img/man.png";
+// import womanImg from "./img/woman.png";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { fas } from "@fortawesome/free-solid-svg-icons"; */
 
 // Img
-import banner from "./img/ridesharing.jpg"; // Your image path
+import banner from "./img/ridesharing.jpg";
 
 // Components
 import Home from "./components/Home";
@@ -59,10 +59,21 @@ const App = () => {
         </Container>
       </Navbar>
 
-      <section id="home" style={{ height: "100vh", paddingTop: "80px" }}>
-        <Container >
-          <Home />
-        </Container>
+      <section
+        id="home"
+        style={{
+          height: "100vh",
+          padding: "0", // Remove any padding to let the background image fill the container
+          margin: "0", // Remove any margins
+          backgroundImage: `url(${banner})`, // Apply background image
+          backgroundSize: "cover", // Ensure the image covers the entire container
+          backgroundPosition: "center", // Center the image
+          backgroundRepeat: "no-repeat", // Prevent the image from repeating
+          height: "100vh", // Make the container full screen
+          width: "100%",
+        }}
+      >
+        <Home />
       </section>
 
       {/* About Section */}
@@ -70,9 +81,7 @@ const App = () => {
         id="aboutus"
         style={{ height: "100vh", padding: "7vh", backgroundColor: "#74785C" }}
       >
-        <Container>
-          <About />
-        </Container>
+        <About />
       </section>
 
       {/* Features Section */}
