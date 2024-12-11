@@ -10,8 +10,6 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 // import womanImg from "./img/woman.png";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { fas } from "@fortawesome/free-solid-svg-icons"; */
-
-// Img
 import banner from "./img/ridesharing.jpg";
 
 // Components
