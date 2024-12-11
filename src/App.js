@@ -13,6 +13,7 @@ import { fas } from "@fortawesome/free-solid-svg-icons"; */
 
 // Components
 import About from "./components/About";
+import SignUp from "./components/SignUp";
 
 // Firebase setup
 import { initializeApp } from "firebase/app";
@@ -69,7 +70,6 @@ const App = () => {
         style={{ height: "100vh", padding: "7vh", backgroundColor: "#74785C" }}
       >
         <About />
-
       </section>
 
       {/* Features Section */}
@@ -86,13 +86,9 @@ const App = () => {
       {/* Sign Up Section */}
       <section
         id="signup"
-        style={{ height: "100vh", backgroundColor: "#f8f9fa", padding: "7vh" }}
+        style={{ height: "100vh", background: "#74785C", padding: "7vh" }}
       >
-        <Container>
-          <h2>Sign Up</h2>
-          <p>Join us today and start sharing rides with others!</p>
-          <button className="btn btn-primary">Sign Up Now</button>
-        </Container>
+        <SignUp />
       </section>
     </div>
   );
