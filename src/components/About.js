@@ -10,7 +10,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 const About = () => {
   return (
     <div>
-      <Container style={{ padding: "150px"}}>
+      <Container style={{ padding: "10%"}}>
         <h2
           style={{ textAlign: "center", fontWeight: "bold", fontSize: "40px" }}
         >
