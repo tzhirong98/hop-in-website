@@ -18,6 +18,7 @@ import banner from "./img/ridesharing.jpg"; // Your image path
 import Home from "./components/Home";
 import About from "./components/About";
 import SignUp from "./components/SignUp";
+import Feature from "./components/Feature";
 
 // Firebase setup
 import { initializeApp } from "firebase/app";
@@ -60,7 +61,7 @@ const App = () => {
       </Navbar>
 
       <section id="home" style={{ height: "100vh", paddingTop: "80px" }}>
-        <Container >
+        <Container>
           <Home />
         </Container>
       </section>
@@ -77,19 +78,19 @@ const App = () => {
 
       {/* Features Section */}
       <section id="features" style={{ height: "100vh", padding: "7vh" }}>
-        <Container>
-          <h2>Features</h2>
-          <p>
-            Discover our unique carpooling features that help you find the best
-            rides.
-          </p>
-        </Container>
+        <Feature />
       </section>
 
       {/* Sign Up Section */}
       <section
         id="signup"
-        style={{ height: "100vh", background: "#74785C", padding: "7vh" }}
+        style={{
+          height: "100vh",
+          background: "#74785C",
+          padding: "7vh",
+          display: "flex",
+          justifyContent: "center",
+        }}
       >
         <SignUp />
       </section>

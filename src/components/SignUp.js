@@ -5,16 +5,24 @@ import Form from "react-bootstrap/Form";
 
 const SignUp = () => {
   return (
-    <Form>
+    <Form style={{ width: "70vh" }}>
       <h2 style={{ marginBottom: "2rem" }}>Sign Up</h2>
       <Form.Group className="mb-3" controlId="Name">
         <Form.Label>Name:</Form.Label>
-        <Form.Control type="text" placeholder="Enter Name" />
+        <Form.Control
+          type="text"
+          placeholder="Enter Name"
+          style={{ background: "lightgray", border: "0" }}
+        />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="Email">
         <Form.Label>Email:</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" />
+        <Form.Control
+          type="email"
+          placeholder="Enter email"
+          style={{ background: "lightgray", border: "0" }}
+        />
       </Form.Group>
 
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -24,7 +32,11 @@ const SignUp = () => {
           style={{ flexGrow: "1", marginRight: "1rem" }}
         >
           <Form.Label>Phone Number:</Form.Label>
-          <Form.Control type="tel" placeholder="Enter Phone Number" />
+          <Form.Control
+            type="tel"
+            placeholder="Enter Phone Number"
+            style={{ background: "lightgray", border: "0" }}
+          />
         </Form.Group>
 
         <Form.Group
@@ -33,7 +45,7 @@ const SignUp = () => {
           style={{ flexGrow: "1" }}
         >
           <Form.Label>Gender:</Form.Label>
-          <Form.Select>
+          <Form.Select style={{ background: "lightgray", border: "0" }}>
             <option>Select Gender</option>
             <option value="1">Male</option>
             <option value="2">Female</option>
@@ -44,7 +56,11 @@ const SignUp = () => {
 
       <Form.Group className="mb-3" controlId="Address">
         <Form.Label>Address:</Form.Label>
-        <Form.Control type="tel" placeholder="Enter Address" />
+        <Form.Control
+          type="text"
+          placeholder="Enter Address"
+          style={{ background: "lightgray", border: "0" }}
+        />
       </Form.Group>
 
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -54,7 +70,11 @@ const SignUp = () => {
           style={{ flexGrow: "1", marginRight: "1rem" }}
         >
           <Form.Label>Password:</Form.Label>
-          <Form.Control type="password" placeholder="Enter Password" />
+          <Form.Control
+            type="password"
+            placeholder="Enter Password"
+            style={{ background: "lightgray", border: "0" }}
+          />
         </Form.Group>
 
         <Form.Group
@@ -63,13 +83,17 @@ const SignUp = () => {
           style={{ flexGrow: "1" }}
         >
           <Form.Label>Confirm Password:</Form.Label>
-          <Form.Control type="password" placeholder="Confirm Password" />
+          <Form.Control
+            type="password"
+            placeholder="Confirm Password"
+            style={{ background: "lightgray", border: "0" }}
+          />
         </Form.Group>
       </div>
 
       <Form.Group className="mb-3" controlId="RegisterAs">
         <Form.Label>Register As:</Form.Label>
-        <Form.Select>
+        <Form.Select style={{ background: "lightgray", border: "0" }}>
           <option>Select Role</option>
           <option value="1">Rider</option>
           <option value="2">Driver</option>
