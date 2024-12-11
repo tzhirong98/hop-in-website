@@ -3,6 +3,16 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import { Navbar, Nav, Container } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+/* import Card from "react-bootstrap/Card";
+import CardGroup from "react-bootstrap/CardGroup";
+import manImg from "./img/man.png";
+import womanImg from "./img/woman.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { fas } from "@fortawesome/free-solid-svg-icons"; */
+
+// Components
+import About from "./components/About";
 
 // Firebase setup
 import { initializeApp } from "firebase/app";
@@ -46,7 +56,7 @@ const App = () => {
 
       <section id="home" style={{ height: "100vh", paddingTop: "80px" }}>
         <Container>
-          <h1>Welcome to Carpool App</h1>
+          <h1 style={{}}>Hop in</h1>
           <p>
             Your ride-sharing experience starts here. Scroll down to learn more.
           </p>
@@ -54,14 +64,12 @@ const App = () => {
       </section>
 
       {/* About Us Section */}
-      <section id="aboutus" style={{ height: "100vh", padding: "7vh" }}>
-        <Container>
-          <h2>About Us</h2>
-          <p>
-            We are a team dedicated to making commuting easier and more
-            eco-friendly.
-          </p>
-        </Container>
+      <section
+        id="aboutus"
+        style={{ height: "100vh", padding: "7vh", backgroundColor: "#74785C" }}
+      >
+        <About />
+
       </section>
 
       {/* Features Section */}
