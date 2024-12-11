@@ -32,10 +32,10 @@ const Feature = () => {
               style={{ height: "60vh", width: "18rem" }}
             />
             <Card.Body style={{ width: "18rem" }}>
-              <Card.Title>Card Title</Card.Title>
+              <Card.Title>Rider Trip Booking</Card.Title>
               <Card.Text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
+                Riders can search, view, and book available trips with real-time
+                updates and trip details.
               </Card.Text>
             </Card.Body>
           </div>
@@ -47,10 +47,10 @@ const Feature = () => {
               style={{ height: "60vh", width: "18rem" }}
             />
             <Card.Body style={{ width: "18rem" }}>
-              <Card.Title>Card Title</Card.Title>
+              <Card.Title>Rider Homepage</Card.Title>
               <Card.Text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
+                A central hub displaying upcoming trips, promotions, trip
+                history, and quick ride search.
               </Card.Text>
             </Card.Body>
           </div>
@@ -62,10 +62,10 @@ const Feature = () => {
               style={{ height: "60vh", width: "18rem" }}
             />
             <Card.Body style={{ width: "18rem" }}>
-              <Card.Title>Card Title</Card.Title>
+              <Card.Title>Promotions and Special Offers</Card.Title>
               <Card.Text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
+                Riders can access and apply promo codes for discounts and stay
+                informed about special deals.
               </Card.Text>
             </Card.Body>
           </div>
