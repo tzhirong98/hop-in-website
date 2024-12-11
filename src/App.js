@@ -43,10 +43,21 @@ const App = () => {
         </Container>
       </Navbar>
 
-      <section id="home" style={{ height: "100vh", paddingTop: "80px" }}>
-        <Container>
-          <Home />
-        </Container>
+      <section
+        id="home"
+        style={{
+          height: "100vh",
+          padding: "0", // Remove any padding to let the background image fill the container
+          margin: "0", // Remove any margins
+          backgroundImage: `url(${banner})`, // Apply background image
+          backgroundSize: "cover", // Ensure the image covers the entire container
+          backgroundPosition: "center", // Center the image
+          backgroundRepeat: "no-repeat", // Prevent the image from repeating
+          height: "100vh", // Make the container full screen
+          width: "100%",
+        }}
+      >
+        <Home />
       </section>
 
       {/* About Section */}
