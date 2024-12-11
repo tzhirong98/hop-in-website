@@ -1,16 +1,14 @@
 // Import necessary modules
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
-import { Container } from "react-bootstrap";
-import Card from "react-bootstrap/Card";
-import CardGroup from "react-bootstrap/CardGroup";
+import { Card, CardGroup, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 const About = () => {
   return (
     <div>
-      <Container style={{ padding: "10%"}}>
+      <Container style={{ padding: "50px" }}>
         <h2
           style={{ textAlign: "center", fontWeight: "bold", fontSize: "40px" }}
         >
@@ -30,13 +28,14 @@ const About = () => {
           This balances creates a seamless experience for both drivers and
           riders, fosterign a collaborative and sustainable way to move around.
         </p>
-      </Container>
-
-      <Container>
+        <br />
+        <h4 style={{ textAlign: "center", fontWeight: "bold" }}>
+          Testimonials
+        </h4>
         <CardGroup>
           {/* Card 1 */}
           <Card bg="dark" border="warning" text="white">
-            <Card.Body>
+            <Card.Body style={{ padding: "30px" }}>
               <Card.Text>
                 "This app has made my daily commute so much easier! The pickup
                 points are super convenient, and I love how flexible it is for
@@ -46,17 +45,17 @@ const About = () => {
             </Card.Body>
             <Card.Footer>
               <small className="text-muted">
-              <FontAwesomeIcon icon={faStar} color="white"/>
-              <FontAwesomeIcon icon={faStar} color="white"/>
-              <FontAwesomeIcon icon={faStar} color="white"/>
-              <FontAwesomeIcon icon={faStar} color="white"/>
+                <FontAwesomeIcon icon={faStar} color="white" />
+                <FontAwesomeIcon icon={faStar} color="white" />
+                <FontAwesomeIcon icon={faStar} color="white" />
+                <FontAwesomeIcon icon={faStar} color="white" />
               </small>
             </Card.Footer>
           </Card>
 
           {/* Card 2 */}
           <Card bg="dark" border="warning" text="light">
-            <Card.Body>
+            <Card.Body style={{ padding: "30px" }}>
               <Card.Text>
                 "As a driver, I appreciate being able to choose my routes. It
                 saves me time and makes the whole experience stress-free."
@@ -67,17 +66,17 @@ const About = () => {
             <Card.Footer>
               <small className="text-muted">
                 <FontAwesomeIcon icon={faStar} color="white" />
-                <FontAwesomeIcon icon={faStar} color="white"/>
-                <FontAwesomeIcon icon={faStar} color="white"/>
-                <FontAwesomeIcon icon={faStar} color="white"/>
-                <FontAwesomeIcon icon={faStar} color="white"/>
+                <FontAwesomeIcon icon={faStar} color="white" />
+                <FontAwesomeIcon icon={faStar} color="white" />
+                <FontAwesomeIcon icon={faStar} color="white" />
+                <FontAwesomeIcon icon={faStar} color="white" />
               </small>
             </Card.Footer>
           </Card>
 
           {/* Card 3 */}
           <Card bg="dark" border="warning" text="white">
-            <Card.Body>
+            <Card.Body style={{ padding: "30px" }}>
               <Card.Text>
                 "Finally, a ridesharing app that works for everyone! It’s
                 efficient, easy to use, and the shared rides feel so organized."
@@ -86,11 +85,10 @@ const About = () => {
             </Card.Body>
             <Card.Footer>
               <small className="text-muted">
-              <FontAwesomeIcon icon={faStar} color="white"/>
-              <FontAwesomeIcon icon={faStar} color="white"/>
-              <FontAwesomeIcon icon={faStar} color="white"/>
-              <FontAwesomeIcon icon={faStar} color="white"/>
-
+                <FontAwesomeIcon icon={faStar} color="white" />
+                <FontAwesomeIcon icon={faStar} color="white" />
+                <FontAwesomeIcon icon={faStar} color="white" />
+                <FontAwesomeIcon icon={faStar} color="white" />
               </small>
             </Card.Footer>
           </Card>
