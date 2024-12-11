@@ -1,13 +1,12 @@
 // Import necessary modules
-import React from 'react';
-import ReactDOM from 'react-dom';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import React from "react";
+import ReactDOM from "react-dom";
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import { Navbar, Nav, Container } from "react-bootstrap";
 
-
 // Firebase setup
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCFD0TRcUo4urNBH2TWp0X7AgTjUonTc14",
@@ -16,7 +15,7 @@ const firebaseConfig = {
   storageBucket: "hop-in-website-46ba1.firebasestorage.app",
   messagingSenderId: "595189280348",
   appId: "1:595189280348:web:347def1587229e51acc099",
-  measurementId: "G-21VH3N172E"
+  measurementId: "G-21VH3N172E",
 };
 
 initializeApp(firebaseConfig);
@@ -24,9 +23,13 @@ const db = getFirestore();
 
 const App = () => {
   return (
-    
     <div>
-      <Navbar bg="dark" variant="dark" expand="lg" fixed="top">
+      <Navbar
+        style={{ backgroundColor: "#3F441E" }}
+        variant="dark"
+        expand="lg"
+        fixed="top"
+      >
         <Container>
           <Navbar.Brand href="#home">HopIn!</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -36,48 +39,56 @@ const App = () => {
               <Nav.Link href="#aboutus">About Us</Nav.Link>
               <Nav.Link href="#features">Features</Nav.Link>
               <Nav.Link href="#signup">Sign Up</Nav.Link>
-              <Nav.Link href="#test">Test</Nav.Link>
-
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
 
-      
       <section id="home" style={{ height: "100vh", paddingTop: "80px" }}>
         <Container>
           <h1>Welcome to Carpool App</h1>
-          <p>Your ride-sharing experience starts here. Scroll down to learn more.</p>
+          <p>
+            Your ride-sharing experience starts here. Scroll down to learn more.
+          </p>
+        </Container>
+      </section>
+
+      {/* About Us Section */}
+      <section id="aboutus" style={{ height: "100vh", padding: "7vh" }}>
+        <Container>
+          <h2>About Us</h2>
+          <p>
+            We are a team dedicated to making commuting easier and more
+            eco-friendly.
+          </p>
         </Container>
       </section>
 
       {/* Features Section */}
-      <section id="features" style={{ height: "100vh" }}>
+      <section id="features" style={{ height: "100vh", padding: "7vh" }}>
         <Container>
           <h2>Features</h2>
-          <p>Discover our unique carpooling features that help you find the best rides.</p>
+          <p>
+            Discover our unique carpooling features that help you find the best
+            rides.
+          </p>
         </Container>
       </section>
 
       {/* Sign Up Section */}
-      <section id="signup" style={{ height: "100vh", backgroundColor: "#f8f9fa" }}>
+      <section
+        id="signup"
+        style={{ height: "100vh", backgroundColor: "#f8f9fa", padding: "7vh" }}
+      >
         <Container>
           <h2>Sign Up</h2>
           <p>Join us today and start sharing rides with others!</p>
           <button className="btn btn-primary">Sign Up Now</button>
         </Container>
       </section>
-
-      {/* About Us Section */}
-      <section id="aboutus" style={{ height: "100vh" }}>
-        <Container>
-          <h2>About Us</h2>
-          <p>We are a team dedicated to making commuting easier and more eco-friendly.</p>
-        </Container>
-      </section>
     </div>
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById("root"));
 export default App;
