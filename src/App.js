@@ -44,14 +44,13 @@ const App = () => {
       <section
         id="home"
         style={{
-          height: "100vh",
+          height: "auto",
           padding: "0", // Remove any padding to let the background image fill the container
           margin: "0", // Remove any margins
           backgroundImage: `url(${banner})`, // Apply background image
           backgroundSize: "cover", // Ensure the image covers the entire container
           backgroundPosition: "center", // Center the image
           backgroundRepeat: "no-repeat", // Prevent the image from repeating
-          height: "100vh", // Make the container full screen
           width: "100%",
         }}
       >
@@ -61,13 +60,13 @@ const App = () => {
       {/* About Section */}
       <section
         id="aboutus"
-        style={{ height: "100vh", padding: "7vh", backgroundColor: "#74785C" }}
+        style={{ height: "auto", padding: "7vh", backgroundColor: "#74785C" }}
       >
         <About />
       </section>
 
       {/* Features Section */}
-      <section id="features" style={{ height: "100vh", padding: "7vh" }}>
+      <section id="features" style={{ height: "auto", padding: "7vh" }}>
         <Feature />
       </section>
 
@@ -75,7 +74,7 @@ const App = () => {
       <section
         id="signup"
         style={{
-          height: "100vh",
+          height: "auto",
           background: "#74785C",
           padding: "7vh",
           display: "flex",
