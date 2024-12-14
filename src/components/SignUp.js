@@ -16,8 +16,7 @@ import { collection, addDoc } from "firebase/firestore";
 const SignUp = () => {
   const [isDriver, setIsDriver] = useState(false); // Track if the user is signing up as a driver
   const [verificationModal, setVerificationModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  
+
   // Validation schema with conditional fields
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -97,7 +96,6 @@ const SignUp = () => {
           });
 
           setVerificationModal(false);
-          setShowSuccessModal(true);
         }
       }, 1000);
     } catch (error) {
@@ -299,33 +297,13 @@ const SignUp = () => {
         </Modal.Header>
         <Modal.Body>
           <p>
-            A verification email has been sent to your email address. Please
-            verify your email before proceeding. This process may take a few
-            moments. We will automatically detect once your email is verified.
+            A verification email has been sent to your email address. <br/>
+            Please verify your email before proceeding. <br/>
+            This process may take a few moments. We will automatically detect once your email is verified.
           </p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={() => setVerificationModal(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* Success Modal */}
-      <Modal
-        show={showSuccessModal}
-        onHide={() => setShowSuccessModal(false)}
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Sign Up Successful</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Thank you for registering with us.</p>
-          <p>You may now log in to your account on our mobile app!</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={() => setShowSuccessModal(false)}>
             Close
           </Button>
         </Modal.Footer>
