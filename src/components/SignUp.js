@@ -6,15 +6,18 @@ import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { auth, db } from "./firebase"; // Import auth and db from firebase.js
 import { collection, addDoc } from "firebase/firestore";
 
-// Define the SignUp component
 const SignUp = () => {
   const [isDriver, setIsDriver] = useState(false); // Track if the user is signing up as a driver
-  const [showModal, setShowModal] = useState(false); // Track modal visibility
-
+  const [verificationModal, setVerificationModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  
   // Validation schema with conditional fields
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -63,34 +66,40 @@ const SignUp = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log("onSubmit called with data:", data); // Debugging
-
     try {
-      // Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         data.email,
         data.password
       );
-      console.log("User created successfully:", userCredential);
+      const user = userCredential.user;
 
-      // Firestore Storage
-      const usersCollection = collection(db, "users");
-      await addDoc(usersCollection, {
-        uid: userCredential.user.uid,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        phone: data.phone,
-        gender: data.gender,
-        address: data.address,
-        role: data.role,
-        license: data.role == "Driver" ? data.license : "", // Store the license number
-        createdAt: new Date(),
-      });
+      await sendEmailVerification(user);
+      setVerificationModal(true);
 
-      console.log("User details saved to Firestore.");
-      setShowModal(true); // Show success modal
+      const interval = setInterval(async () => {
+        await user.reload();
+        if (user.emailVerified) {
+          clearInterval(interval);
+
+          const usersCollection = collection(db, "users");
+          await addDoc(usersCollection, {
+            uid: user.uid,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            phone: data.phone,
+            gender: data.gender,
+            address: data.address,
+            role: data.role,
+            license: data.role === "Driver" ? data.license : "",
+            createdAt: new Date(),
+          });
+
+          setVerificationModal(false);
+          setShowSuccessModal(true);
+        }
+      }, 1000);
     } catch (error) {
       console.error("Error during submission:", error.message);
       alert(`Error: ${error.message}`);
@@ -228,7 +237,7 @@ const SignUp = () => {
 
         {/* Register As Driver/Rider */}
         <Form.Group className="mb-3">
-          <Form.Label>Register as</Form.Label>
+          <Form.Label>Register as a</Form.Label>
           <Form.Select
             {...register("role")}
             isInvalid={!!errors.role}
@@ -243,20 +252,14 @@ const SignUp = () => {
           </Form.Control.Feedback>
         </Form.Group>
 
-        {/* Vehicle Details - Show only for Drivers */}
+        {/* Licence No. - Show only for Drivers */}
         {isDriver && (
           <Form.Group className="mb-3">
             <Form.Label>Licence No.</Form.Label>
             <Form.Control
               type="text"
               placeholder="Enter your licence number (e.g., S1234567A)"
-              {...register("license", {
-                required: "Licence No. is required",
-                pattern: {
-                  value: /^[STFG]\d{7}[A-Z]$/,
-                  message: "Invalid Licence No. format (e.g., S1234567A)",
-                },
-              })}
+              {...register("license")}
               isInvalid={!!errors.license}
             />
             <Form.Control.Feedback type="invalid">
@@ -267,7 +270,6 @@ const SignUp = () => {
 
         {/* Buttons */}
         <div className="d-flex justify-content-between">
-          {/* Submit Button */}
           <Button
             variant="secondary"
             type="submit"
@@ -275,8 +277,6 @@ const SignUp = () => {
           >
             Sign Up
           </Button>
-
-          {/* Reset Button */}
           <Button
             variant="secondary"
             type="button"
@@ -288,17 +288,44 @@ const SignUp = () => {
         </div>
       </Form>
 
+      {/* Email Verification Modal */}
+      <Modal
+        show={verificationModal}
+        onHide={() => setVerificationModal(false)}
+        centered
+      >
+        <Modal.Header>
+          <Modal.Title>Email Verification Required</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>
+            A verification email has been sent to your email address. Please
+            verify your email before proceeding. This process may take a few
+            moments. We will automatically detect once your email is verified.
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={() => setVerificationModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       {/* Success Modal */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal
+        show={showSuccessModal}
+        onHide={() => setShowSuccessModal(false)}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Sign Up Successful</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>Thank you for registering with us.</p>
-          <p>You may log into your account on our mobile app!</p>
+          <p>You may now log in to your account on our mobile app!</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={() => setShowModal(false)}>
+          <Button variant="primary" onClick={() => setShowSuccessModal(false)}>
             Close
           </Button>
         </Modal.Footer>
