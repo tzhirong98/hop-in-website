@@ -92,6 +92,12 @@ const SignUp = () => {
             address: data.address,
             role: data.role,
             license: data.role === "Driver" ? data.license : "",
+            vehicleTypePref: "Economy",
+            quietRidePref: true,
+            driverPref: "Male",
+            waitTimePref: 3,
+            coRiderPref: 2,
+            defaultPaymentPref: "Cash",
             createdAt: new Date(),
           });
 
