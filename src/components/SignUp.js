@@ -59,7 +59,6 @@ const SignUp = () => {
     handleSubmit,
     reset,
     formState: { errors },
-    watch,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
@@ -303,9 +302,10 @@ const SignUp = () => {
         </Modal.Header>
         <Modal.Body>
           <p>
-            A verification email has been sent to your email address. <br/>
-            Please verify your email before proceeding. <br/>
-            This process may take a few moments. We will automatically detect once your email is verified.
+            A verification email has been sent to your email address. <br />
+            Please verify your email before proceeding. <br />
+            This process may take a few moments. We will automatically detect
+            once your email is verified.
           </p>
         </Modal.Body>
         <Modal.Footer>
