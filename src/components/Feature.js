@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
+import "bootstrap/dist/css/bootstrap.min.css";
 import { Card, CardGroup } from "react-bootstrap";
-import { fetchFeatures } from "../database/FeaturesDB"; // Import fetchFeatures from FeaturesDB
+import { fetchFeatures } from "../database/FeaturesDB"; 
 
 const Feature = () => {
   const [features, setFeatures] = useState([]);
@@ -10,8 +10,8 @@ const Feature = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedFeatures = await fetchFeatures(); // Call the helper function
-        console.log("Fetched Features:", fetchedFeatures); // Debugging
+        const fetchedFeatures = await fetchFeatures(); 
+        console.log("Fetched Features:", fetchedFeatures); 
         setFeatures(fetchedFeatures);
       } catch (error) {
         console.error("Error fetching features:", error);
@@ -22,20 +22,6 @@ const Feature = () => {
 
     fetchData();
   }, []);
-
-  // Debugging: Test fetchFeatures in a separate useEffect
-  useEffect(() => {
-    const testFetch = async () => {
-      try {
-        const features = await fetchFeatures();
-        console.log("Fetched Features in testFetch:", features); // Debugging
-      } catch (error) {
-        console.error("Error in testFetch:", error);
-      }
-    };
-
-    testFetch();
-  }, []); // Runs only once
 
   if (loading) {
     return <h2 style={{ textAlign: "center" }}>Loading Features...</h2>;

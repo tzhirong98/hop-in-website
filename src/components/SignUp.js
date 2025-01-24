@@ -10,11 +10,11 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
-import { auth, db } from "../utilities/firebase"; // Import auth and db from firebase.js
+import { auth, db } from "../utilities/firebase"; 
 import { collection, addDoc } from "firebase/firestore";
 
 const SignUp = () => {
-  const [isDriver, setIsDriver] = useState(false); // Track if the user is signing up as a driver
+  const [isDriver, setIsDriver] = useState(false); 
   const [verificationModal, setVerificationModal] = useState(false);
 
   // Validation schema with conditional fields

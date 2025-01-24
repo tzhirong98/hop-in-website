@@ -1,6 +1,5 @@
-// Import necessary modules
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
+import "bootstrap/dist/css/bootstrap.min.css"; 
 import { Card, CardGroup, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
@@ -81,7 +80,7 @@ const About = () => {
                 "Finally, a ridesharing app that works for everyone! It’s
                 efficient, easy to use, and the shared rides feel so organized."
               </Card.Text>
-              <Card.Title>- Alisa T.</Card.Title>
+              <Card.Title>- Alisa L.</Card.Title>
             </Card.Body>
             <Card.Footer>
               <small className="text-muted">

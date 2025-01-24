@@ -1,6 +1,5 @@
-// Import necessary modules
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
+import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 
 const Home = () => {
