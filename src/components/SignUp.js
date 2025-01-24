@@ -10,7 +10,7 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
-import { auth, db } from "./firebase"; // Import auth and db from firebase.js
+import { auth, db } from "../utilities/firebase"; // Import auth and db from firebase.js
 import { collection, addDoc } from "firebase/firestore";
 
 const SignUp = () => {

@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import { Card, CardGroup } from "react-bootstrap";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { fetchFeatures } from "../database/FeaturesDB"; // Import fetchFeatures from FeaturesDB
 
 const Feature = () => {
   const [features, setFeatures] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchFeatures = async () => {
+    const fetchData = async () => {
       try {
-        const db = getFirestore();
-        const querySnapshot = await getDocs(collection(db, "websiteFeatures"));
-        const fetchedFeatures = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const fetchedFeatures = await fetchFeatures(); // Call the helper function
+        console.log("Fetched Features:", fetchedFeatures); // Debugging
         setFeatures(fetchedFeatures);
       } catch (error) {
         console.error("Error fetching features:", error);
@@ -24,8 +20,26 @@ const Feature = () => {
       }
     };
 
-    fetchFeatures();
+    fetchData();
   }, []);
+
+  // Debugging: Test fetchFeatures in a separate useEffect
+  useEffect(() => {
+    const testFetch = async () => {
+      try {
+        const features = await fetchFeatures();
+        console.log("Fetched Features in testFetch:", features); // Debugging
+      } catch (error) {
+        console.error("Error in testFetch:", error);
+      }
+    };
+
+    testFetch();
+  }, []); // Runs only once
+
+  if (loading) {
+    return <h2 style={{ textAlign: "center" }}>Loading Features...</h2>;
+  }
 
   if (loading) {
     return <h2 style={{ textAlign: "center" }}>Loading Features...</h2>;
@@ -41,7 +55,9 @@ const Feature = () => {
         {features.map((feature) => (
           <Card key={feature.id} style={styles.card}>
             <Card.Body>
-              <Card.Title style={styles.cardTitle}>{feature.feature}</Card.Title>
+              <Card.Title style={styles.cardTitle}>
+                {feature.feature}
+              </Card.Title>
               <Card.Text style={styles.cardText}>{feature.desc}</Card.Text>
             </Card.Body>
           </Card>
