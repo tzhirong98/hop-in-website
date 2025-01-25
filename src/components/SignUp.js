@@ -86,20 +86,26 @@ const SignUp = () => {
       console.log("Form Data:", data);
       console.log("Address Details:", addressDetails);
 
-      const user = await SignupHelper.registerUser(data);
-      setVerificationModal(true);
-
-      const interval = setInterval(async () => {
-        await user.reload();
-        if (user.emailVerified) {
-          clearInterval(interval);
-          await SignupHelper.saveUserToFirestore(user, {
-            ...data,
-            addressDetails: addressDetails,
-          });
-          setVerificationModal(false);
-        }
-      }, 1000);
+      const isExisting = SignupHelper.checkIfNumberExists(data.phone, data.license, data.role)
+      if(isExisting === true){
+        alert("User exist in the system");
+      }else{
+        const user = await SignupHelper.registerUser(data);
+        setVerificationModal(true);
+  
+        const interval = setInterval(async () => {
+          await user.reload();
+          if (user.emailVerified) {
+            clearInterval(interval);
+            await SignupHelper.saveUserToFirestore(user, {
+              ...data,
+              addressDetails: addressDetails,
+            });
+            setVerificationModal(false);
+          }
+        }, 1000);
+      }
+  
     } catch (error) {
       console.error("Error during signup:", error.message);
       alert(`Error: ${error.message}`);

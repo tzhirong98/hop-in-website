@@ -2,10 +2,51 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../utilities/firebase";
 
 class SignupHelper {
+  static async checkIfNumberExists(mobileNumber, licenseNumber, userRole) {
+    let isExisting = true;
+    // Ensure the mobileNumber and licenseNumber are valid before querying
+    if (!mobileNumber && !licenseNumber) {
+      throw new Error("Both mobile number and license number cannot be empty.");
+    }
+
+    // Check if mobile number exists in the "users" collection (if mobileNumber is provided)
+    if (mobileNumber) {
+      const mobileQuery = query(
+        collection(db, "users"),
+        where("role", "==", userRole),
+        where("phone", "==", mobileNumber)
+      );
+      const mobileQuerySnapshot = await getDocs(mobileQuery);
+      console.log("Mobile query result:", mobileQuerySnapshot.empty);
+
+      if (mobileQuerySnapshot.empty) {
+        isExisting = false;
+      }
+    }
+
+    // Check if license number exists in the "users" collection (if licenseNumber is provided)
+    if (licenseNumber) {
+      const licenseQuery = query(
+        collection(db, "users"),
+        where("role", "==", userRole),
+        where("license", "==", licenseNumber)
+      );
+      const licenseQuerySnapshot = await getDocs(licenseQuery);
+      console.log("license query result:", licenseQuerySnapshot.empty);
+
+      if (licenseQuerySnapshot.empty) {
+        isExisting = false;
+      }
+    }
+
+    console.log("isExisting", isExisting);
+    return isExisting; // Neither mobile nor license exists
+  }
+
   static async registerUser(data) {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -17,10 +58,10 @@ class SignupHelper {
 
       await sendEmailVerification(user);
 
-      return user; 
+      return user;
     } catch (error) {
       console.error("Error during user registration:", error.message);
-      throw error; 
+      throw error;
     }
   }
 
@@ -38,7 +79,7 @@ class SignupHelper {
         license: data.role === "Driver" ? data.license : null,
         addressDetails: data.addressDetails,
         createdAt: new Date(),
-        status: "verified"
+        status: "verified",
       });
 
       const preferencesCollection = collection(
@@ -56,7 +97,7 @@ class SignupHelper {
       return userDocRef;
     } catch (error) {
       console.error("Error saving user to Firestore:", error.message);
-      throw error; 
+      throw error;
     }
   }
 }
