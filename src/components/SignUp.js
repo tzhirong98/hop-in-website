@@ -7,10 +7,16 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import SignupHelper from "../utilities/SignupHelper";
+import GooglePlacesAutocomplete, {
+  geocodeByPlaceId,
+} from "react-google-places-autocomplete";
 
 const SignUp = () => {
   const [isDriver, setIsDriver] = useState(false);
   const [verificationModal, setVerificationModal] = useState(false);
+  const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [addressDetails, setAddressDetails] = useState(null);
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -51,13 +57,22 @@ const SignUp = () => {
     register,
     handleSubmit,
     reset,
+    setValue,
+    clearErrors,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
   const onSubmit = async (data) => {
+    if (!addressDetails) {
+      alert("Please select a valid address.");
+      return;
+    }
     try {
+      console.log("Form Data:", data);
+      console.log("Address Details:", addressDetails);
+
       const user = await SignupHelper.registerUser(data);
       setVerificationModal(true);
 
@@ -65,7 +80,10 @@ const SignUp = () => {
         await user.reload();
         if (user.emailVerified) {
           clearInterval(interval);
-          await SignupHelper.saveUserToFirestore(user, data);
+          await SignupHelper.saveUserToFirestore(user, {
+            ...data,
+            addressDetails: addressDetails,
+          });
           setVerificationModal(false);
         }
       }, 1000);
@@ -161,19 +179,52 @@ const SignUp = () => {
           </div>
         </Form.Group>
 
-        {/* Address */}
+        {/* Address with Google Places Autocomplete */}
         <Form.Group className="mb-3">
           <Form.Label>Address</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={3}
-            placeholder="Enter your address"
-            {...register("address")}
-            isInvalid={!!errors.address}
+          <GooglePlacesAutocomplete
+            apiKey={GOOGLE_MAP_API_KEY}
+            selectProps={{
+              value: selectedAddress,
+              onChange: async (address) => {
+                setSelectedAddress(address);
+                if (address?.value?.place_id) {
+                  try {
+                    const results = await geocodeByPlaceId(
+                      address.value.place_id
+                    );
+                    const formattedAddress = results[0].formatted_address;
+                    const lat = results[0].geometry.location.lat();
+                    const lng = results[0].geometry.location.lng();
+                    const placeId = results[0].place_id;
+
+                    setAddressDetails({
+                      address: formattedAddress,
+                      lat,
+                      lng,
+                      placeId,
+                    });
+
+                    setValue("address", formattedAddress);
+                    clearErrors("address");
+                  } catch (error) {
+                    console.error("Error fetching place details:", error);
+                  }
+                }
+              },
+              placeholder: "Search for an address",
+              onFocus: () => {
+                setSelectedAddress(null); // Clear the selected address
+                setAddressDetails(null); // Clear the detailed address
+              },
+            }}
+            autocompletionRequest={{
+              componentRestrictions: { country: "SG" }, // Restrict to Singapore
+            }}
           />
-          <Form.Control.Feedback type="invalid">
-            {errors.address?.message}
-          </Form.Control.Feedback>
+          {errors.address && (
+            <div className="text-danger">{errors.address.message}</div>
+          )}
         </Form.Group>
 
         {/* Password */}
