@@ -64,18 +64,18 @@ const SignUp = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  // function debounce(func, delay) {
-  //   let timer;
-  //   return function (...args) {
-  //     clearTimeout(timer);
-  //     timer = setTimeout(() => func.apply(this, args), delay);
-  //   };
-  // }
+  function debounce(func, delay) {
+    let timer;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => func.apply(this, args), delay);
+    };
+  }
 
-  // const debouncedHandleAddressSelect = debounce((address) => {
-  //   setSelectedAddress(address);
-  //   handleAddressSelect(address);
-  // }, 300);
+  const debouncedHandleAddressSelect = debounce((address) => {
+    setSelectedAddress(address);
+    handleAddressSelect(address);
+  }, 300);
 
   const onSubmit = async (data) => {
     if (!addressDetails) {
@@ -108,7 +108,6 @@ const SignUp = () => {
 
   const fetchPlaceDetails = async (placeId) => {
     const endpoint = "/.netlify/functions/googlePlacesProxy"; // Use relative path for production
-
 
     try {
       const response = await fetch(endpoint, {
@@ -259,15 +258,11 @@ const SignUp = () => {
             apiKey={GOOGLE_MAP_API_KEY}
             selectProps={{
               value: selectedAddress,
-              onChange: handleAddressSelect,
+              onChange: debouncedHandleAddressSelect,
               placeholder: "Search for an address",
-              onFocus: () => {
-                setSelectedAddress(null); 
-                setAddressDetails(null); 
-              },
             }}
             autocompletionRequest={{
-              componentRestrictions: { country: "SG" }, 
+              componentRestrictions: { country: "SG" },
             }}
           />
           {errors.address && (

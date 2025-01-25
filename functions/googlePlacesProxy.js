@@ -9,7 +9,7 @@ exports.handler = async (event) => {
   if (!GOOGLE_SERVER_API_KEY) {
     console.error("Missing GOOGLE_SERVER_API_KEY in environment variables.");
   }
-  const url = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${GOOGLE_SERVER_API_KEY}`;
+  const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${GOOGLE_SERVER_API_KEY}`;
 
   try {
     const response = await fetch(url);
