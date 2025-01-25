@@ -1,4 +1,3 @@
-// SignupHelper.js
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
