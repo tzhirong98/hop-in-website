@@ -7,9 +7,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import SignupHelper from "../utilities/SignupHelper";
-import GooglePlacesAutocomplete, {
-  geocodeByPlaceId,
-} from "react-google-places-autocomplete";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 const SignUp = () => {
   const [isDriver, setIsDriver] = useState(false);
@@ -64,6 +62,19 @@ const SignUp = () => {
     resolver: yupResolver(validationSchema),
   });
 
+  function debounce(func, delay) {
+    let timer;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => func.apply(this, args), delay);
+    };
+  }
+
+  const debouncedHandleAddressSelect = debounce((address) => {
+    setSelectedAddress(address);
+    handleAddressSelect(address);
+  }, 300);
+
   const onSubmit = async (data) => {
     if (!addressDetails) {
       alert("Please select a valid address.");
@@ -94,8 +105,13 @@ const SignUp = () => {
   };
 
   const fetchPlaceDetails = async (placeId) => {
+    const endpoint =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:8888/.netlify/functions/googlePlacesProxy"
+        : "/.netlify/functions/googlePlacesProxy";
+
     try {
-      const response = await fetch("/.netlify/functions/googlePlacesProxy", {
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -104,13 +120,21 @@ const SignUp = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch place details");
+        throw new Error(
+          `Failed to fetch place details: ${response.statusText}`
+        );
       }
 
       const data = await response.json();
+
+      if (!data || !data.result) {
+        throw new Error("Invalid place details response");
+      }
+
       return data;
     } catch (error) {
       console.error("Error fetching place details:", error);
+      return null;
     }
   };
 
@@ -118,21 +142,27 @@ const SignUp = () => {
     if (address?.value?.place_id) {
       const placeDetails = await fetchPlaceDetails(address.value.place_id);
 
-      if (placeDetails) {
-        const formattedAddress = placeDetails.result.formatted_address;
-        const lat = placeDetails.result.geometry.location.lat;
-        const lng = placeDetails.result.geometry.location.lng;
-
-        setAddressDetails({
-          address: formattedAddress,
-          lat,
-          lng,
-          placeId: address.value.place_id,
-        });
-
-        setValue("address", formattedAddress);
-        clearErrors("address");
+      if (!placeDetails || !placeDetails.result) {
+        console.error("Invalid place details:", placeDetails);
+        alert("Failed to fetch address details. Please try again.");
+        return;
       }
+
+      console.log("placeDetails", placeDetails);
+
+      const formattedAddress = placeDetails.result.formatted_address;
+      const lat = placeDetails.result.geometry.location.lat;
+      const lng = placeDetails.result.geometry.location.lng;
+
+      setAddressDetails({
+        address: formattedAddress,
+        lat,
+        lng,
+        placeId: address.value.place_id,
+      });
+
+      setValue("address", formattedAddress);
+      clearErrors("address");
     }
   };
 
@@ -229,18 +259,15 @@ const SignUp = () => {
             apiKey={GOOGLE_MAP_API_KEY}
             selectProps={{
               value: selectedAddress,
-              onChange: async (address) => {
-                setSelectedAddress(address);
-                handleAddressSelect(address)
-              },
+              onChange: debouncedHandleAddressSelect,
               placeholder: "Search for an address",
               onFocus: () => {
-                setSelectedAddress(null); // Clear the selected address
-                setAddressDetails(null); // Clear the detailed address
+                setSelectedAddress(null); 
+                setAddressDetails(null); 
               },
             }}
             autocompletionRequest={{
-              componentRestrictions: { country: "SG" }, // Restrict to Singapore
+              componentRestrictions: { country: "SG" }, 
             }}
           />
           {errors.address && (
