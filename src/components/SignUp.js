@@ -6,18 +6,12 @@ import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
-import { auth, db } from "../utilities/firebase"; 
-import { collection, addDoc } from "firebase/firestore";
+import SignupHelper from "../utilities/SignupHelper";
 
 const SignUp = () => {
-  const [isDriver, setIsDriver] = useState(false); 
+  const [isDriver, setIsDriver] = useState(false);
   const [verificationModal, setVerificationModal] = useState(false);
 
-  // Validation schema with conditional fields
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
       .required("First Name is required")
@@ -53,7 +47,6 @@ const SignUp = () => {
       : Yup.string().nullable(),
   });
 
-  // Initialize useForm hook
   const {
     register,
     handleSubmit,
@@ -65,46 +58,19 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
-      const user = userCredential.user;
-
-      await sendEmailVerification(user);
+      const user = await SignupHelper.registerUser(data);
       setVerificationModal(true);
 
       const interval = setInterval(async () => {
         await user.reload();
         if (user.emailVerified) {
           clearInterval(interval);
-
-          const usersCollection = collection(db, "users");
-          await addDoc(usersCollection, {
-            uid: user.uid,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            phone: data.phone,
-            gender: data.gender,
-            address: data.address,
-            role: data.role,
-            license: data.role === "Driver" ? data.license : "",
-            vehicleTypePref: "Economy",
-            quietRidePref: true,
-            driverPref: "Male",
-            waitTimePref: 3,
-            coRiderPref: 2,
-            defaultPaymentPref: "Cash",
-            createdAt: new Date(),
-          });
-
+          await SignupHelper.saveUserToFirestore(user, data);
           setVerificationModal(false);
         }
       }, 1000);
     } catch (error) {
-      console.error("Error during submission:", error.message);
+      console.error("Error during signup:", error.message);
       alert(`Error: ${error.message}`);
     }
   };
@@ -291,7 +257,6 @@ const SignUp = () => {
         </div>
       </Form>
 
-      {/* Email Verification Modal */}
       <Modal
         show={verificationModal}
         onHide={() => setVerificationModal(false)}
