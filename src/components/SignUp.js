@@ -12,7 +12,9 @@ import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 const SignUp = () => {
   const [isDriver, setIsDriver] = useState(false);
   const [verificationModal, setVerificationModal] = useState(false);
+
   const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
+
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [addressDetails, setAddressDetails] = useState(null);
 
@@ -62,18 +64,18 @@ const SignUp = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  function debounce(func, delay) {
-    let timer;
-    return function (...args) {
-      clearTimeout(timer);
-      timer = setTimeout(() => func.apply(this, args), delay);
-    };
-  }
+  // function debounce(func, delay) {
+  //   let timer;
+  //   return function (...args) {
+  //     clearTimeout(timer);
+  //     timer = setTimeout(() => func.apply(this, args), delay);
+  //   };
+  // }
 
-  const debouncedHandleAddressSelect = debounce((address) => {
-    setSelectedAddress(address);
-    handleAddressSelect(address);
-  }, 300);
+  // const debouncedHandleAddressSelect = debounce((address) => {
+  //   setSelectedAddress(address);
+  //   handleAddressSelect(address);
+  // }, 300);
 
   const onSubmit = async (data) => {
     if (!addressDetails) {
@@ -105,10 +107,8 @@ const SignUp = () => {
   };
 
   const fetchPlaceDetails = async (placeId) => {
-    const endpoint =
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:8888/.netlify/functions/googlePlacesProxy"
-        : "/.netlify/functions/googlePlacesProxy";
+    const endpoint = "/.netlify/functions/googlePlacesProxy"; // Use relative path for production
+
 
     try {
       const response = await fetch(endpoint, {
@@ -259,7 +259,7 @@ const SignUp = () => {
             apiKey={GOOGLE_MAP_API_KEY}
             selectProps={{
               value: selectedAddress,
-              onChange: debouncedHandleAddressSelect,
+              onChange: handleAddressSelect,
               placeholder: "Search for an address",
               onFocus: () => {
                 setSelectedAddress(null); 

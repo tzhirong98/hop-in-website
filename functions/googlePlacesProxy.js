@@ -4,7 +4,11 @@ exports.handler = async (event) => {
   const { placeId } = JSON.parse(event.body);
 
   const GOOGLE_SERVER_API_KEY = process.env.GOOGLE_SERVER_API_KEY;
-
+  console.log("GOOGLE_SERVER_API_KEY", GOOGLE_SERVER_API_KEY);
+  
+  if (!GOOGLE_SERVER_API_KEY) {
+    console.error("Missing GOOGLE_SERVER_API_KEY in environment variables.");
+  }
   const url = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${GOOGLE_SERVER_API_KEY}`;
 
   try {
@@ -23,6 +27,8 @@ exports.handler = async (event) => {
       };
     }
   } catch (error) {
+    console.error("Fetch error:", error);
+
     return {
       statusCode: 500,
       body: JSON.stringify({ error: "Failed to fetch place details" }),
