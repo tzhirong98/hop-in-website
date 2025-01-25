@@ -93,6 +93,49 @@ const SignUp = () => {
     }
   };
 
+  const fetchPlaceDetails = async (placeId) => {
+    try {
+      const response = await fetch("/.netlify/functions/googlePlacesProxy", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ placeId }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch place details");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching place details:", error);
+    }
+  };
+
+  const handleAddressSelect = async (address) => {
+    if (address?.value?.place_id) {
+      const placeDetails = await fetchPlaceDetails(address.value.place_id);
+
+      if (placeDetails) {
+        const formattedAddress = placeDetails.result.formatted_address;
+        const lat = placeDetails.result.geometry.location.lat;
+        const lng = placeDetails.result.geometry.location.lng;
+
+        setAddressDetails({
+          address: formattedAddress,
+          lat,
+          lng,
+          placeId: address.value.place_id,
+        });
+
+        setValue("address", formattedAddress);
+        clearErrors("address");
+      }
+    }
+  };
+
   return (
     <div className="container mt-5">
       <h2 className="text-center mb-4">Sign Up</h2>
@@ -188,29 +231,7 @@ const SignUp = () => {
               value: selectedAddress,
               onChange: async (address) => {
                 setSelectedAddress(address);
-                if (address?.value?.place_id) {
-                  try {
-                    const results = await geocodeByPlaceId(
-                      address.value.place_id
-                    );
-                    const formattedAddress = results[0].formatted_address;
-                    const lat = results[0].geometry.location.lat();
-                    const lng = results[0].geometry.location.lng();
-                    const placeId = results[0].place_id;
-
-                    setAddressDetails({
-                      address: formattedAddress,
-                      lat,
-                      lng,
-                      placeId,
-                    });
-
-                    setValue("address", formattedAddress);
-                    clearErrors("address");
-                  } catch (error) {
-                    console.error("Error fetching place details:", error);
-                  }
-                }
+                handleAddressSelect(address)
               },
               placeholder: "Search for an address",
               onFocus: () => {
