@@ -79,7 +79,7 @@ class SignupHelper {
         license: data.role === "Driver" ? data.license : null,
         addressDetails: data.addressDetails,
         createdAt: new Date(),
-        status: "verified",
+        status: data.role === "Driver" ? 'Pending' : 'Verified',
       });
 
       const preferencesCollection = collection(
