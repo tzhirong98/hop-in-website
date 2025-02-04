@@ -80,7 +80,11 @@ class SignupHelper {
         addressDetails: data.addressDetails,
         createdAt: new Date(),
         driverStatus: data.role === "Driver" ? 'Pending' : null,
-        riderStatus: "Verfied"
+        driverRating: data.role === "Driver" ? 5 : 0,
+        noOfRating: data.role === "Driver" ? 1 : 1,
+        riderStatus: "Verfied",
+        banned: false,
+        banReason: null,
       });
 
       const preferencesCollection = collection(
@@ -88,7 +92,7 @@ class SignupHelper {
         `users/${userDocRef.id}/preferences`
       );
       await addDoc(preferencesCollection, {
-        vehicleTypePref: "Economy",
+        vehicleTypePref: "SUV",
         quietRidePref: true,
         driverPref: "Male",
         coRiderPref: 2,
