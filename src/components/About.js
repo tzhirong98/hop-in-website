@@ -14,10 +14,13 @@ const About = () => {
       try {
         const db = getFirestore();
         const querySnapshot = await getDocs(collection(db, "testimonials"));
-        const fetchedTestimonials = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const fetchedTestimonials = querySnapshot.docs
+          .map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+          .filter((testimonial) => testimonial.status === "published");
+
         const sortedTestimonials = fetchedTestimonials
           .sort((a, b) => b.datetime.toDate() - a.datetime.toDate())
           .slice(0, 3);
@@ -94,15 +97,26 @@ const About = () => {
                   }}
                 >
                   <Card.Body>
-                    <Card.Text style={{ fontSize: "16px", fontStyle: "italic" }}>
+                    <Card.Text
+                      style={{ fontSize: "16px", fontStyle: "italic" }}
+                    >
                       &quot;{testimonial.review}&quot;
                     </Card.Text>
-                    <Card.Title style={{ fontSize: "18px", fontWeight: "bold" }}>
+                    <Card.Title
+                      style={{ fontSize: "18px", fontWeight: "bold" }}
+                    >
                       – {testimonial.firstName} {testimonial.lastName}
                     </Card.Title>
                   </Card.Body>
                   <Card.Footer>
-                    <small className="text-muted" style={{ display: "flex", justifyContent: "center", gap: "5px" }}>
+                    <small
+                      className="text-muted"
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        gap: "5px",
+                      }}
+                    >
                       {renderStars(testimonial.rating)}
                     </small>
                   </Card.Footer>
