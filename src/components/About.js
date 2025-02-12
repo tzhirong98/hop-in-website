@@ -20,18 +20,19 @@ const About = () => {
             ...doc.data(),
           }))
           .filter((testimonial) => testimonial.status === "published");
-
-        const sortedTestimonials = fetchedTestimonials
-          .sort((a, b) => b.datetime.toDate() - a.datetime.toDate())
-          .slice(0, 3);
-        setTestimonials(sortedTestimonials);
+  
+        const shuffledTestimonials = fetchedTestimonials.sort(() => Math.random() - 0.5);
+  
+        const randomTestimonials = shuffledTestimonials.slice(0, 3);
+  
+        setTestimonials(randomTestimonials);
       } catch (error) {
         console.error("Error fetching testimonials:", error);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchTestimonials();
   }, []);
 
