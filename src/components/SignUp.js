@@ -83,10 +83,7 @@ const SignUp = () => {
       return;
     }
     try {
-      const mobileExists = await SignupHelper.checkIfNumberExists(
-        data.phone,
-        data.license
-      );
+      const mobileExists = await SignupHelper.checkIfNumberExists(data.phone);
 
       if (mobileExists === true) {
         alert("Phone/License already in use.");

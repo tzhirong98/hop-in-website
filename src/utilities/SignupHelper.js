@@ -6,15 +6,13 @@ import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../utilities/firebase";
 
 class SignupHelper {
-  static async checkIfNumberExists(mobileNumber, licenseNumber) {
-    // Ensure the mobileNumber and licenseNumber are valid before querying
+  static async checkIfNumberExists(mobileNumber) {
     if (!mobileNumber) {
       throw new Error("Phone number cannot be empty.");
     }
 
     let mobileExists = false;
 
-    // Check if mobile number exists in the "users" collection (if mobileNumber is provided)
     if (mobileNumber) {
       const mobileQuery = query(
         collection(db, "users"),
@@ -28,14 +26,12 @@ class SignupHelper {
   }
 
   static async checkIfLicenseExists(licenseNumber) {
-    // Ensure the mobileNumber and licenseNumber are valid before querying
     if (!licenseNumber) {
       throw new Error("License number cannot be empty.");
     }
 
     let licenseExists = false;
 
-    // Check if license number exists in the "users" collection (if licenseNumber is provided)
     if (licenseNumber) {
       const licenseQuery = query(
         collection(db, "users"),
