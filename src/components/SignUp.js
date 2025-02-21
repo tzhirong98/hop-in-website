@@ -93,9 +93,9 @@ const SignUp = () => {
       );
       if (isExisting === true) {
         if (data.role === "Driver") {
-          alert("Phone number already in use.");
-        } else {
           alert("Phone/License already in use.");
+        } else {
+          alert("Phone number already in use.");
         }
         return;
       } else {
