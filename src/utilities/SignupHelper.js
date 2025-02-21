@@ -13,38 +13,30 @@ class SignupHelper {
       throw new Error("Both mobile number and license number cannot be empty.");
     }
 
+    let mobileExists = false;
+    let licenseExists = false;
+
     // Check if mobile number exists in the "users" collection (if mobileNumber is provided)
     if (mobileNumber) {
       const mobileQuery = query(
         collection(db, "users"),
-        where("role", "==", userRole),
         where("phone", "==", mobileNumber)
       );
       const mobileQuerySnapshot = await getDocs(mobileQuery);
-      console.log("Mobile query result:", mobileQuerySnapshot.empty);
-
-      if (mobileQuerySnapshot.empty) {
-        isExisting = false;
-      }
+      mobileExists = !mobileQuerySnapshot.empty;
     }
 
     // Check if license number exists in the "users" collection (if licenseNumber is provided)
     if (licenseNumber) {
       const licenseQuery = query(
         collection(db, "users"),
-        where("role", "==", userRole),
         where("license", "==", licenseNumber)
       );
       const licenseQuerySnapshot = await getDocs(licenseQuery);
-      console.log("license query result:", licenseQuerySnapshot.empty);
-
-      if (licenseQuerySnapshot.empty) {
-        isExisting = false;
-      }
+      licenseExists = !licenseQuerySnapshot.empty;
     }
 
-    console.log("isExisting", isExisting);
-    return isExisting; // Neither mobile nor license exists
+    return mobileExists || licenseExists;
   }
 
   static async registerUser(data) {
@@ -79,7 +71,7 @@ class SignupHelper {
         license: data.role === "Driver" ? data.license : null,
         addressDetails: data.addressDetails,
         createdAt: new Date(),
-        driverStatus: data.role === "Driver" ? 'Pending' : null,
+        driverStatus: data.role === "Driver" ? "Pending" : null,
         driverRating: data.role === "Driver" ? 5 : 0,
         noOfRating: data.role === "Driver" ? 1 : 1,
         riderStatus: "Verfied",

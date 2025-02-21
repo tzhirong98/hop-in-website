@@ -88,16 +88,16 @@ const SignUp = () => {
 
       const isExisting = await SignupHelper.checkIfNumberExists(
         data.phone,
-        data.license,
-        data.role
+        data.license
       );
       if (isExisting === true) {
         if (data.role === "Driver") {
           alert("Phone/License already in use.");
+          return;
         } else {
           alert("Phone number already in use.");
+          return;
         }
-        return;
       } else {
         const user = await SignupHelper.registerUser(data);
         setVerificationModal(true);
