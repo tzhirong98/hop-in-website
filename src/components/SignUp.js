@@ -86,13 +86,22 @@ const SignUp = () => {
       console.log("Form Data:", data);
       console.log("Address Details:", addressDetails);
 
-      const isExisting = SignupHelper.checkIfNumberExists(data.phone, data.license, data.role)
-      if(isExisting === true){
-        alert("User exist in the system");
-      }else{
+      const isExisting = await SignupHelper.checkIfNumberExists(
+        data.phone,
+        data.license,
+        data.role
+      );
+      if (isExisting === true) {
+        if (data.role === "Driver") {
+          alert("Phone number already in use.");
+        } else {
+          alert("Phone/License already in use.");
+        }
+        return;
+      } else {
         const user = await SignupHelper.registerUser(data);
         setVerificationModal(true);
-  
+
         const interval = setInterval(async () => {
           await user.reload();
           if (user.emailVerified) {
@@ -105,7 +114,6 @@ const SignUp = () => {
           }
         }, 1000);
       }
-  
     } catch (error) {
       console.error("Error during signup:", error.message);
       alert(`Error: ${error.message}`);
