@@ -83,21 +83,27 @@ const SignUp = () => {
       return;
     }
     try {
-      console.log("Form Data:", data);
-      console.log("Address Details:", addressDetails);
-
-      const isExisting = await SignupHelper.checkIfNumberExists(
+      const mobileExists = await SignupHelper.checkIfNumberExists(
         data.phone,
         data.license
       );
-      if (isExisting === true) {
-        if (data.role === "Driver") {
-          alert("Phone/License already in use.");
-          return;
-        } else {
-          alert("Phone number already in use.");
-          return;
-        }
+
+      if (mobileExists === true) {
+        alert("Phone/License already in use.");
+        return;
+      }
+
+      let licenseExists = false;
+      console.log("License Number: ", data.license);
+      if (data.role === "Driver") {
+        licenseExists = await SignupHelper.checkIfLicenseExists(data.license);
+      } else {
+        data.license = "";
+      }
+
+      if (licenseExists === true) {
+        alert("License number already in use.");
+        return;
       } else {
         const user = await SignupHelper.registerUser(data);
         setVerificationModal(true);
