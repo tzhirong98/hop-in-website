@@ -7,7 +7,6 @@ import { auth, db } from "../utilities/firebase";
 
 class SignupHelper {
   static async checkIfNumberExists(mobileNumber, licenseNumber, userRole) {
-    let isExisting = true;
     // Ensure the mobileNumber and licenseNumber are valid before querying
     if (!mobileNumber && !licenseNumber) {
       throw new Error("Both mobile number and license number cannot be empty.");
